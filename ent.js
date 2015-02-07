@@ -116,12 +116,16 @@
         return this._current;
     };
 
-    p._findMySibling = function(current) {
+    p._findMySibling = function(current, next) {
         var parent = this.findParent(current.path);
         var tree = parent ? parent.tree : this._tree;
         var pos = tree.indexOf(current);
-        return tree[++pos];
-    }
+        if (next) {
+            return tree[++pos];
+        } else {
+            return tree[--pos];
+        }
+    };
 
     p.next = function() {
         var current = this._current;
@@ -129,18 +133,34 @@
         if (current.tree && current._open && current.tree.length) {
             this._current = current.tree[0];
         } else {
-            this._current = this._findMySibling(current);
+            this._current = this._findMySibling(current, true);
         }
 
         while (!this._current) {
             var before = this._navigationStack.pop();
-            this._current = this._findMySibling(before);
+            this._current = this._findMySibling(before, true);
         }
 
         this._navigationStack.push(this._current);
 
         return this._current;
-    }
+    };
+
+    p.prev = function() {
+        var before = this._findMySibling(this._current, false);
+
+        if (!before) {
+            before = this.findParent(this._current.path);
+        } else {
+            while (before.tree && before._open && before.tree.length) {
+                before = before.tree[before.tree.length - 1];
+            }
+        }
+        this._current = before;
+        this._navigationStack.pop();
+
+        return this._current;
+    };
 
     module.exports = Ent;
 })();

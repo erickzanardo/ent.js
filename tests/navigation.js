@@ -19,6 +19,7 @@ describe('Navigation', function() {
     it ('navigation through closed folders', function() {
         var treebeard = createTreebeard();
         var current = treebeard.current();
+        // Next
         assert.equal('documents', current.name);
         current = treebeard.next();
         assert.equal('emptyfolder', current.name);
@@ -26,6 +27,14 @@ describe('Navigation', function() {
         assert.equal('musics', current.name);
         current = treebeard.next();
         assert.equal('node', current.name);
+        
+        // Prev
+        current = treebeard.prev();
+        assert.equal('musics', current.name);
+        current = treebeard.prev();
+        assert.equal('emptyfolder', current.name);
+        current = treebeard.prev();
+        assert.equal('documents', current.name);
     });
 
     it ('navigation through open folders', function() {
@@ -37,6 +46,8 @@ describe('Navigation', function() {
 
         var current = treebeard.current();
         assert.equal('documents', current.name);
+        
+        // Next
         current = treebeard.next();
         assert.equal('forest.doc', current.name);
         current = treebeard.next();
@@ -49,5 +60,19 @@ describe('Navigation', function() {
         assert.equal('musics', current.name);
         current = treebeard.next();
         assert.equal('node', current.name);
+        
+        // Prev
+        current = treebeard.prev();
+        assert.equal('musics', current.name);
+        current = treebeard.prev();
+        assert.equal('emptyfolderagain', current.name);
+        current = treebeard.prev();
+        assert.equal('anotheremptyfolder', current.name);
+        current = treebeard.prev();
+        assert.equal('emptyfolder', current.name);
+        current = treebeard.prev();
+        assert.equal('forest.doc', current.name);
+        current = treebeard.prev();
+        assert.equal('documents', current.name);
     });
 });
