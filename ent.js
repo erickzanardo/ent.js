@@ -26,6 +26,8 @@
         this._home = home;
         this._tree = [];
         this._index = {};
+        this._current = null;
+        this._navigationStack = [];
     };
     
         var findNode = function(tree, nodeName) {
@@ -105,6 +107,40 @@
         split.pop();
         return this.find(split.join('/'));
     };
+
+    p.current = function() {
+        if (!this._current) {
+            this._current = this._tree[0];
+            this._navigationStack.push(this._current);
+        }
+        return this._current;
+    };
+
+    p._findMySibling = function(current) {
+        var parent = this.findParent(current.path);
+        var tree = parent ? parent.tree : this._tree;
+        var pos = tree.indexOf(current);
+        return tree[++pos];
+    }
+
+    p.next = function() {
+        var current = this._current;
+
+        if (current.tree && current._open && current.tree.length) {
+            this._current = current.tree[0];
+        } else {
+            this._current = this._findMySibling(current);
+        }
+
+        while (!this._current) {
+            var before = this._navigationStack.pop();
+            this._current = this._findMySibling(before);
+        }
+
+        this._navigationStack.push(this._current);
+
+        return this._current;
+    }
 
     module.exports = Ent;
 })();
