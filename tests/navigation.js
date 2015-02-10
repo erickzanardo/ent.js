@@ -1,9 +1,6 @@
 var assert = require('assert')
 var Ent = require('../ent.js')
 
-var assertTree = function(tree) {
-}
-
 var createTreebeard = function() {
     var treebeard = new Ent('/home/treebeard');
     treebeard.addFolder('/home/treebeard/documents');
