@@ -163,5 +163,11 @@
         return this._current;
     };
 
+    p.searchFiles = function(query) {
+    };
+
+    p.searchFolders = function(query) {
+    };
+
     module.exports = Ent;
 })();
