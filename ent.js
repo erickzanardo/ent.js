@@ -188,5 +188,35 @@
         return result;
     };
 
+    p._removeNode = function(path) {
+        var node = this.find(path);
+        if (node) {
+            var parent = this.findParent(path);
+            var i = parent.tree.indexOf(node);
+            parent.tree.splice(i, 1);
+
+            delete this._index[node.path];
+
+            var firstLetter = node.name.substr(0, 1).toLowerCase();
+            var fileIndex = this._fileSearchIndex[firstLetter];
+            if (fileIndex) {
+                i = fileIndex.indexOf(node);
+                fileIndex.splice(i, 1);
+            }
+        }
+    };
+    
+    p.removeFile = function(path) {
+        this._removeNode(path);
+    };
+
+    p.removeFolder = function(path) {
+        var folder = this.find(path);
+        for (var i = 0; i < folder.tree.length; i++) {
+            this._removeNode(folder.tree[i].path);
+        }
+        this._removeNode(path);
+    };
+
     module.exports = Ent;
 })();
