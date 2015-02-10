@@ -158,6 +158,7 @@
         }
         this._current = before;
         this._navigationStack.pop();
+        this._navigationStack.push(this._current);
 
         return this._current;
     };

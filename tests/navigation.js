@@ -46,7 +46,7 @@ describe('Navigation', function() {
 
         var current = treebeard.current();
         assert.equal('documents', current.name);
-        
+
         // Next
         current = treebeard.next();
         assert.equal('forest.doc', current.name);
@@ -74,5 +74,20 @@ describe('Navigation', function() {
         assert.equal('forest.doc', current.name);
         current = treebeard.prev();
         assert.equal('documents', current.name);
+        
+        
+        // Test next again, just to be sure :)
+        current = treebeard.next();
+        assert.equal('forest.doc', current.name);
+        current = treebeard.next();
+        assert.equal('emptyfolder', current.name);
+        current = treebeard.next();
+        assert.equal('anotheremptyfolder', current.name);
+        current = treebeard.next();
+        assert.equal('emptyfolderagain', current.name);
+        current = treebeard.next();
+        assert.equal('musics', current.name);
+        current = treebeard.next();
+        assert.equal('node', current.name);
     });
 });
