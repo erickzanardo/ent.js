@@ -15,13 +15,6 @@ describe('Search for files and folders', function() {
         var result = treebeard.searchFiles('b');
         assert.equal(2, result.length);
         assert.equal('Blind_Guardian_The_Lord_Of_Rings.mp3', result[0].name);
-        assert.equal('node', result[1].name);
-    });
-
-    it('#searchFolders', function() {
-        var result = treebeard.searchFolders('m');
-        assert.equal(2, result.length);
-        assert.equal('musics', result[0].name);
-        assert.equal('misc', result[1].name);
+        assert.equal('brackets', result[1].name);
     });
 });

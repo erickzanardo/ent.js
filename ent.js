@@ -28,6 +28,7 @@
         this._index = {};
         this._current = null;
         this._navigationStack = [];
+        this._fileSearchIndex = {};
     };
     
         var findNode = function(tree, nodeName) {
@@ -70,6 +71,12 @@
                     tree.push(node);
                     if (!file) {
                         tree = node.tree;
+                    } else {
+                        var firstLetter = node.name.substr(0, 1).toLowerCase();
+                        if (!ent._fileSearchIndex[firstLetter]) {
+                            ent._fileSearchIndex[firstLetter] = [];
+                        }
+                        ent._fileSearchIndex[firstLetter].push(node);
                     }
                 }
             }
@@ -164,9 +171,21 @@
     };
 
     p.searchFiles = function(query) {
-    };
-
-    p.searchFolders = function(query) {
+        var result = [];
+        if (query) {
+            query = query.toLowerCase();
+            var firstLetter = query.substr(0, 1);
+            var index = this._fileSearchIndex[firstLetter];
+            if (index) {
+                for (var i = 0 ; i < index.length ; i++) {
+                    var node = index[i];
+                    if (node.name.toLowerCase().indexOf(query) == 0) {
+                        result.push(node);
+                    }
+                }
+            }
+        }
+        return result;
     };
 
     module.exports = Ent;
