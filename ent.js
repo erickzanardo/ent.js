@@ -193,15 +193,17 @@
         if (node) {
             var parent = this.findParent(path);
             var i = parent.tree.indexOf(node);
-            parent.tree.splice(i, 1);
+            if (parent) {
+                parent.tree.splice(i, 1);
 
-            delete this._index[node.path];
+                delete this._index[node.path];
 
-            var firstLetter = node.name.substr(0, 1).toLowerCase();
-            var fileIndex = this._fileSearchIndex[firstLetter];
-            if (fileIndex) {
-                i = fileIndex.indexOf(node);
-                fileIndex.splice(i, 1);
+                var firstLetter = node.name.substr(0, 1).toLowerCase();
+                var fileIndex = this._fileSearchIndex[firstLetter];
+                if (fileIndex) {
+                    i = fileIndex.indexOf(node);
+                    fileIndex.splice(i, 1);
+                }
             }
         }
     };
