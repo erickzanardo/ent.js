@@ -69,4 +69,15 @@ describe('Removing nodes', function() {
             assert.equal('brackets', result[0].name);
         });
     });
+
+    describe('Removing itens on the root', function() {
+        var treebeard = new Ent('/home/treebeard');
+        treebeard.addFolder('/home/treebeard/documents');
+        treebeard.addFile('/home/treebeard/brackets');
+
+        treebeard.removeFile('/home/treebeard/brackets');
+        it('node must have been removed', function() {
+            assert.equal(1, treebeard.tree().length);
+        });
+    });
 });
