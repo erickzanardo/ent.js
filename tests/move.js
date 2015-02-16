@@ -107,6 +107,21 @@ describe('Move funtions', function() {
         });
     });
 
+    describe('Move/Rename a file', function() {
+        var treebeard = createTreebeard();
+        treebeard.move('/home/treebeard/node', '/home/treebeard/documents/node');
+
+        it('file must be moved', function() {
+            assert.equal(null, treebeard.find('/home/treebeard/node'));
+            assert.equal('node', treebeard.find('/home/treebeard/documents/node').name);
+            assert.equal('/home/treebeard/documents/node', treebeard.find('/home/treebeard/documents/node').path);
+        });
+        
+        it('parent must have two entries now', function() {
+            assert.equal(2, treebeard.find('/home/treebeard/documents').tree.length);
+        });
+    });
+    
     describe('Searches', function() {
         describe('find a renamed file', function() {
             var treebeard = createTreebeard();
